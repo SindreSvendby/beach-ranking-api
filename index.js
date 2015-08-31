@@ -12,7 +12,7 @@ app.get('/fake/woman/', function(req, res) {
     return res.json(JSON.parse(fs.readFileSync('./output.json', 'utf8')));
 });
 
-app.get('/ranking/men', function(req, res) {
+app.get('/ranking/2015/men', function(req, res) {
     const rankingP = playerRanking('M');
 
     rankingP.then(function(result) {
@@ -25,7 +25,7 @@ app.get('/ranking/men', function(req, res) {
     });
 });
 
-app.get('/ranking/woman', function(req, res) {
+app.get('/ranking/2015/woman', function(req, res) {
     const rankingP = playerRanking('K');
 
     rankingP.then(function(result) {
