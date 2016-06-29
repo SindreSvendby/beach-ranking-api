@@ -12,13 +12,19 @@ const htmlParseOption = {
     decodeEntities: true
 };
 
-export default function playerRanking(gender) {
+export default function playerRanking(gender, year) {
     return new Promise(function(resolve, reject) {
-        if (!lodash.contains(validGender, gender)) {
-            return reject({error: 'Argument gender is ' + gender + ' should be one of ' + validGender});
+        if(year < 2007) {
+          return reject({error: 'Har bare data fra 2007 og oppover'});
+        }
+        if(year > new Date().getFullYear()) {
+          return reject({error: 'Har dessverre ikke fremtidige resultater'});
+        }
+        if (!lodash.includes(validGender, gender)) {
+            return reject({error: 'Argument gender is "' + gender + '" should be one of ' + validGender});
         }
 
-        const rankingUrl = 'http://www.profixio.com/fx/lisens_nvbf/rankinglist.php?k=' + gender + '&aar=2015';
+        const rankingUrl = `http://www.profixio.com/fx/lisens_nvbf/rankinglist.php?k=${gender}&aar=${year}`;
 
         const result = httpGet(rankingUrl)
             .map(getTableRows)
@@ -57,7 +63,7 @@ function httpGet(url) {
         // do something async when we read from the Stream
         request.get(url).end(function(error, res) {
             if(error) {
-                return push(error);    
+                return push(error);
             }
             push(null, res.text);
             push(null, _.nil);

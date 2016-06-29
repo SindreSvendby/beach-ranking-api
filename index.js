@@ -12,8 +12,8 @@ app.get('/fake/woman/', function(req, res) {
     return res.json(JSON.parse(fs.readFileSync('./output.json', 'utf8')));
 });
 
-app.get('/ranking/2015/men', function(req, res) {
-    const rankingP = playerRanking('M');
+app.get('/ranking/:year/:gender', function(req, res) {
+    const rankingP = playerRanking(req.params.gender, req.params.year);
 
     rankingP.then(function(result) {
         return res.json(result);
@@ -21,20 +21,7 @@ app.get('/ranking/2015/men', function(req, res) {
 
     rankingP.catch(function(error) {
         console.log('error IN playerRanking, : ', error);
-        return res.statusCode(500).json({'error': error});
-    });
-});
-
-app.get('/ranking/2015/woman', function(req, res) {
-    const rankingP = playerRanking('K');
-
-    rankingP.then(function(result) {
-        return res.json(result);
-    });
-
-    rankingP.catch(function(error) {
-        console.log('error IN playerRanking, : ', error);
-        return res.statusCode(500).json({'error': error});
+        return res.status(500).json(error);
     });
 });
 
