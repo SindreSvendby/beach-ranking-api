@@ -1,3 +1,3 @@
 #!/bin/bash
-nohup npm start >nohup.out 2>&1 & 
+PORT=3001 nohup npm start >nohup.out 2>&1 & 
 
