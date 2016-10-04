@@ -42,17 +42,23 @@ export default function playerRanking(gender, year) {
 
 function getNameFromTr(element) {
 
-    const tdelements = cheerio(element, htmlParseOption).contents();
-    const firstname = tdelements.eq(2).text();
-    const lastname = tdelements.eq(1).text().match(/^(.*)\((.*)\)$/)[1];
-    const points = tdelements.eq(3).text();
-    const birthYear = tdelements.eq(1).text().match(/\((.*)\)/)[1];
+    try {
+      const tdelements = cheerio(element, htmlParseOption).contents();
 
-    return {
-        name: firstname + ' ' + lastname,
-        points: points,
-        birthYear: birthYear
-    };
+      const cupassistId = tdelements.eq(1).html().match(/sid=([0-9]*)&/)[1]
+      const firstname = tdelements.eq(2).text();
+      const lastname = tdelements.eq(1).text().match(/^(.*)\((.*)\)$/)[1];
+      const points = tdelements.eq(3).text();
+      const birthYear = tdelements.eq(1).text().match(/\((.*)\)/)[1];
+      return {
+          name: firstname + ' ' + lastname,
+          points: points,
+          birthYear: birthYear,
+          cupassistId: cupassistId
+      };
+    } catch(e) {
+      console.log('Error parsing one row', e.toString())
+    }
 }
 
 function httpGet(url) {
