@@ -52,7 +52,7 @@ function getNameFromTr(element) {
       const birthYear = tdelements.eq(1).text().match(/\((.*)\)/)[1];
       return {
           name: firstname + ' ' + lastname,
-          points: points,
+          points: parseInt(points, 10),
           birthYear: birthYear,
           cupassistId: cupassistId
       };
