@@ -46,39 +46,8 @@ function getTournmanetIds(err, res) {
     console.log(tournamentDetailUrls)
     tournamentDetailUrls.forEach(url => {
         a.get(url).end(handleDetailPage)
+        //how to get to the signup page from here?
+        // jsdom / selenium? or can i have the same approche and parse out some url I can use? 
     });
 
 }
-
-function handleDetailPage(err, res) {
-    if(err) {
-        return console.log('error', err);
-    }
-    const $ = cheerio.load(res.text);
-    cheerioTableparser($)
-    const data = $("table").parsetable(true, true, true);
-    const length = data[1].length
-    //tournamentNameIds.push(data[1].length);
-    const tournamentDetails = data[1]
-    getTournamentPage(tournamentDetails[length-1]);
-}
-
-//main()
-
-function getTournamentPage(url) {
-    a.get(url, handleTournamentPage);
-}
-
-function handleTournamentPage(err, res) {
-    if(err) {
-        return console.log('error', err);
-    }
-    console.log(res.text);
-    const $ = cheerio.load(res.text);
-    cheerioTableparser($)
-    
-}
-
-
-
-getTournamentPage("http://www.profixio.com/pamelding/redirect.php?tknavn=rogaland_tour_1_u13_17");
